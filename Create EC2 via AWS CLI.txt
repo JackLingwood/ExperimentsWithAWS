@@ -1,0 +1,12 @@
+ $encodedUserData = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((Get-Content nginx-setup.sh -Raw)))
+
+
+aws ec2 run-instances `
+  --image-id ami-054d057aaa6f1aa39 `
+  --instance-type t2.micro `
+  --key-name SandboxUniversalKeyPair `
+  --security-group-ids sg-03a9a2d9c3ce111ce `
+  --user-data $encodedUserData `
+  --region us-east-2 `
+  --profile sandbox `
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=BlueFalconSky}]'

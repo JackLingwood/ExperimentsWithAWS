@@ -1,0 +1,16 @@
+
+# See initialization log for Linux instance
+
+sudo cat /var/log/cloud-init-output.log
+
+# See if nginx is running on your Linux instance
+
+sudo systemctl status nginx
+
+# Check from within Linux instance to see if web server is running
+curl http://localhost
+
+# Get the public ip address of the current linux instance
+curl ifconfig.me
+
+

@@ -1,0 +1,25 @@
+# List profiles
+aws configure list-profiles
+
+# SSO Login
+aws sso login --profile sandbox
+
+# Find security groups for us-east-1
+aws ec2 describe-security-groups `
+  --region us-east-2 `
+  --profile sandbox `
+  --query 'SecurityGroups[*].{Name:GroupName,ID:GroupId,VPC:VpcId}'
+
+# Find key pairs 
+  aws ec2 describe-key-pairs --region us-east-2 --profile sandbox ` 
+
+
+# Find name of Amazon Linux 2 AMI for us-east-2
+aws ec2 describe-images `
+  --owners amazon `
+  --filters "Name=name,Values=amzn2-ami-hvm-*-x86_64-gp2" `
+            "Name=state,Values=available" `
+  --region us-east-2 `
+  --profile sandbox `
+  --query 'Images | sort_by(@, &CreationDate)[-1].ImageId' `
+  --output text

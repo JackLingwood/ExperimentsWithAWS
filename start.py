@@ -37,8 +37,9 @@ import paramiko
 
 # Connection details
 hostname = os.getenv("hostname")
-username = os.getenv("username")
 key_path = os.getenv("key_path")
+username = os.getenv("username")
+
 
 # Make sure the key file uses encryption.
 

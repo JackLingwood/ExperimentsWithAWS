@@ -1,0 +1,15 @@
+#!/bin/bash
+
+yum install -y nginx
+systemctl start nginx
+systemctl enable nginx
+
+# Use the following for Amazon Linux 2 (AMI)
+# the following works - just use http://<IP4 PUBLIC ADDRESS> and NOT https://<IP4 PUBLIC ADDRESS>
+
+#!/bin/bash
+amazon-linux-extras enable nginx1
+yum clean metadata
+yum install -y nginx
+systemctl start nginx
+systemctl enable nginx
