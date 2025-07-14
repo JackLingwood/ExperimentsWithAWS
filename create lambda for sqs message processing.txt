@@ -1,0 +1,10 @@
+AWS Services >> Lambda >> Create function >> Use a blueprint
+Select blueprint "Process messages in an SQS queue" with nodejs18.x
+
+Under "Execution rule" >> Select "Create a new role from AWS policy templates"
+Under Role  name enter "Lamberto_Role"
+Under Policy templates select "Amazon SQS poller permissions SQS"
+
+Under SQS trugger
+    Under SQS queue select your queue.
+
