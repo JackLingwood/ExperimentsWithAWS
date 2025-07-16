@@ -1,0 +1,3 @@
+# Make a zip file using PowerShell
+Compress-Archive lambda_function.py function.zip
+

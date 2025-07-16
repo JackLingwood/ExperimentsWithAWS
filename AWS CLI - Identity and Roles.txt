@@ -1,0 +1,23 @@
+# Get ARN of current role
+aws sts get-caller-identity --profile sandbox
+
+
+# Find out where IAM Identity Center is active within an AWS account
+aws sso-admin list-instances --profile sandbox
+
+
+{
+    "Instances": [
+        {
+            "CreatedDate": "2021-11-24T11:05:49.339000-05:00",
+            "IdentityStoreId": "d-926777b570",
+            "InstanceArn": "arn:aws:sso:::instance/ssoins-790766fc0d838bbe",
+            "OwnerAccountId": "846191789591",
+            "Status": "ACTIVE"
+        }
+    ]
+}
+
+# List out the roles in my account
+aws sso-admin list-permission-sets --instance-arn arn:aws:sso:::instance/ssoins-790766fc0d838bbe --region us-west-2 --profile sandbox
+

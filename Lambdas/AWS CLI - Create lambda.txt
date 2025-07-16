@@ -1,0 +1,41 @@
+# Step 1 - Write lambda_function.py
+
+def lambda_handler(event, context):
+    return {
+        "statusCode": 200,
+        "body": "Hello from CLI Lambda!"
+    }
+
+
+# Step 2 - Put Pythong script in zip file
+
+Compress-Archive lambda_function.py function.zip
+
+# Step 3 - Put trust policy in trust-policy.json
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+# Step 4 - Create a role
+
+aws iam create-role --role-name lambda-execution-role --assume-role-policy-document file://trust-policy.json --profile sandbox
+
+# Step 5 - Attach permissions
+
+aws iam attach-role-policy --role-name lambda-execution-role --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole --profile sandbox
+
+# Wait 10 seconds for IAM propagation
+
+Step 6 - Create lambda
+
+aws lambda create-function --function-name MyCLILambda --runtime python3.12 --role arn:aws:iam::123456789012:role/lambda-execution-role --handler lambda_function.lambda_handler --zip-file fileb://function.zip --timeout 10 --memory-size 128 --region us-west-2 --profile sandbox
