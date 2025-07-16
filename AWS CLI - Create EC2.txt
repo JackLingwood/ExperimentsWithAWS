@@ -1,5 +1,4 @@
- $encodedUserData = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((Get-Content nginx-setup.sh -Raw)))
-
+$encodedUserData = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes((Get-Content nginx-setup.sh -Raw)))
 
 aws ec2 run-instances `
   --image-id ami-054d057aaa6f1aa39 `

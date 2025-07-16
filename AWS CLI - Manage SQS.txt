@@ -1,0 +1,41 @@
+# GET LIST OF ALL QUEUES
+aws sqs list-queues --region us-west-2 --profile sandbox
+
+
+# CREATE A QUEUE IN SPECIFIC REGION
+aws sqs create-queue --queue-name WildebeestQueue --profile sandbox --region us-east-1 
+
+
+# DELETE A QUEUE HAS 2 SecurityGroups
+
+1. Get Queue address
+--------------------
+aws sqs get-queue-url `
+  --queue-name WildebeestQueue `
+  --region us-west-2 `
+  --profile sandbox
+
+  {
+    "QueueUrl": "https://sqs.us-east-1.amazonaws.com/<SANDBOX_ACCOUNT_ID>/WildebeestQueue"
+}
+
+2. Delete queue command
+-----------------------
+aws sqs delete-queue --queue-url https://sqs.us-east-1.amazonaws.com/<SANDBOX_ACCOUNT_ID>/WildebeestQueue --region us-east-1 --profile sandbox
+aws sqs delete-queue --queue-url https://sqs.us-west-2.amazonaws.com/964181216271/ZebraCrossingQueue --region us-west-2 --profile sandbox
+
+
+3. Find history of a queue
+--------------------------
+
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=ZebraCrossingQueue --max-results 5 --profile sandbox --region us-west-2
+
+aws cloudtrail lookup-events --start-time "2025-07-15T00:00:00Z" --end-time "2025-07-16T00:00:00Z" --lookup-attributes AttributeKey=EventName,AttributeValue=CreateQueue
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=CreateQueue
+
+
+https://sqs.us-west-2.amazonaws.com/<SANDBOX_ACCOUNT_ID>/ZebraCrossingQueue
+
+# FIND OUT WHO CREATE A SQS QUEUE (only works up to 90 days after creation)
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=https://sqs.us-west-2.amazonaws.com/<SANDBOX_ACCOUNT_ID>/ZebraCrossingQueue --max-results 5 --profile sandbox --region us-west-2
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=https://sqs.us-west-2.amazonaws.com/<SANDBOX_ACCOUNT_ID>/TEST1 --max-results 5 --profile sandbox --region us-west-2
