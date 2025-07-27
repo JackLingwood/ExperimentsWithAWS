@@ -1,6 +1,9 @@
 # List profiles
 aws configure list-profiles
 
+# To add new profile user
+AWS configure sso
+
 # SSO Login
 aws sso login --profile sandbox
 

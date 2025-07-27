@@ -1,0 +1,2 @@
+# List available buckets
+aws s3 ls
