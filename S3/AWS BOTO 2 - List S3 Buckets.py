@@ -36,7 +36,11 @@ import os
 import paramiko
 
 
-local_s3_save_path = os.getenv("local_s3_save_path","")
+local_s3_save_path = os.getenv("local_s3_save_path", "")
+# Remove any quotes or r'...' from the path
+if local_s3_save_path.startswith("r'") or local_s3_save_path.startswith('r"'):
+    local_s3_save_path = local_s3_save_path[2:]
+local_s3_save_path = local_s3_save_path.strip("'\"")
 bucket_name = os.getenv("bucket_name", "")
 bucket_subfolder_name = os.getenv("bucket_subfolder_name", "")
 bucket_select_text = os.getenv("bucket_select_text", "")    
@@ -86,17 +90,18 @@ for page in paginator.paginate(Bucket=bucket_name, Prefix=bucket_subfolder_name)
             inner_count += 1
             print(f"{txt}")
             # Prepare local path (flatten: all files in output_folder)
+            import re
+
             filename = os.path.basename(txt)
+            # Remove or replace any characters not allowed in Windows filenames
+            filename = re.sub(r'[<>:"/\\\\|?*]', '_', filename)
             local_path = os.path.join(local_s3_save_path, filename)
             print(f"Local path: {local_path}")
             # Download the file
-            #s3.download_file(bucket_name, txt, local_path)
+            s3.download_file(bucket_name, txt, local_path)
             print(f"Downloaded {txt} to {local_path}")
         if (inner_count > max_downloads):
             print(f"Stopping after {max_downloads} objects.")
             break
     if inner_count > max_downloads:
         break
-
-
-
